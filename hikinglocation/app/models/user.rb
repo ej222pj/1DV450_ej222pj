@@ -1,3 +1,4 @@
+require 'digest/sha1'
 class User < ActiveRecord::Base
     attr_accessor :password
     EMAIL_REGEX = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
@@ -12,8 +13,7 @@ class User < ActiveRecord::Base
     after_save :clear_password
     def encrypt_password
       if password.present?
-        self.salt = BCrypt::Engine.generate_salt
-        self.encrypted_password= BCrypt::Engine.hash_secret(password, salt)
+        self.encrypted_password= Digest::SHA1.hexdigest(password)
       end
     end
     def clear_password
