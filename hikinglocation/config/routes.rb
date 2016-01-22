@@ -1,19 +1,29 @@
 Rails.application.routes.draw do
-  get 'sessions/login'
+  match ':controller(/:action(/:id))(.:format)', via: [:get, :post]
+  root :to => 'sessions#login'
+  match "signup", :to => "users#new", via: [:get, :post]
+  match "login", :to => "sessions#login", via: [:get, :post]
+  match "logout", :to => "sessions#logout", via: [:get, :post]
+  match "home", :to => "sessions#home", via: [:get, :post]
+  match "profile", :to => "sessions#profile", via: [:get, :post]
+  match "setting", :to => "sessions#setting", via: [:get, :post]
+  #resources :users
+  
+  #post 'sessions/login'
 
-  get 'sessions/home'
+  #get 'sessions/home'
 
-  get 'sessions/profile'
+  #get 'sessions/profile'
 
-  get 'sessions/setting'
+  #get 'sessions/setting'
 
-  get 'sessions/login'
+  #get 'sessions/login'
 
-  get 'sessions/home'
+  #get 'sessions/home'
 
-  get 'sessions/profile'
+  #get 'sessions/profile'
 
-  get 'sessions/setting'
+  #get 'sessions/setting'
 
   #get 'users/new'
   
@@ -24,15 +34,15 @@ Rails.application.routes.draw do
   #root 'users#new'
   #resources :users
   
-  resources :users
   
-  root :to => "sessions#login"
-  match '/signup', to: 'users#new', via: :get
-  match "/login", to: "sessions#login", via: :get
-  match "/logout", to: "sessions#logout", via: :get
-  match "/home", to: "sessions#home", via: :get
-  match "/profile", to: "sessions#profile", via: :get
-  match "/setting", to: "sessions#setting", via: :get
+  
+  #root :to => "sessions#login"
+  #match '/signup', to: 'users#new', via: :get
+  #match "/login", to: "sessions#login", via: :post
+  #match "/logout", to: "sessions#logout", via: :get
+  #match "/home", to: "sessions#home", via: :get
+  #match "/profile", to: "sessions#profile", via: :get
+  #match "/setting", to: "sessions#setting", via: :get
   
   
   # Example of regular route:
