@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'applications/new'
+
   match ':controller(/:action(/:id))(.:format)', via: [:get, :post]
   root :to => 'sessions#login'
   match "signup", :to => "users#new", via: [:get, :post]
