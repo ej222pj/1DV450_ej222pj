@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   attr_accessor :password
 
-  before_save :encrypt_password
+  before_save :hash_password
   after_save :clear_password
 
   EMAIL_REGEX = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
@@ -12,8 +12,6 @@ class User < ActiveRecord::Base
   validates :password, :confirmation => true
   #Only on Create so other actions like update password attribute can be nil
   validates_length_of :password, :in => 6..20, :on => :create
-
-  #attr_accessible :username, :email, :password, :password_confirmation
 
 
   def self.authenticate(username_or_email="", login_password="")
@@ -32,18 +30,18 @@ class User < ActiveRecord::Base
   end   
 
   def match_password(login_password="")
-    encrypted_password == Digest::SHA1.hexdigest(login_password)
-    #encrypted_password == BCrypt::Engine.hash_secret(login_password, salt)
+    hash_password == Digest::SHA1.hexdigest(login_password)
+    #hash_password == BCrypt::Engine.hash_secret(login_password, salt)
   end
 
 
 
-  def encrypt_password
+  def hash_password
     unless password.blank?
-      self.encrypted_password= Digest::SHA1.hexdigest(password)
+      self.hash_password= Digest::SHA1.hexdigest(password)
 
      # self.salt = BCrypt::Engine.generate_salt
-     # self.encrypted_password = BCrypt::Engine.hash_secret(password, salt)
+     # self.hash_password = BCrypt::Engine.hash_secret(password, salt)
     end
   end
 
