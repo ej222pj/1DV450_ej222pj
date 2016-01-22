@@ -1,18 +1,18 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
-
+  
   attr_accessor :password
 
   before_save :hash_password
   after_save :clear_password
+  
 
   EMAIL_REGEX = /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
   validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
   validates :email, :presence => true, :uniqueness => true, :format => EMAIL_REGEX
-  validates :password, :confirmation => true
+  validates :password, :confirmation => true, length: { minimum: 6 }
   #Only on Create so other actions like update password attribute can be nil
-  validates_length_of :password, :in => 6..20, :on => :create
-
+  #validates_length_of :password, :in => 6..20, :on => :create
 
   def self.authenticate(username_or_email="", login_password="")
 
@@ -30,15 +30,13 @@ class User < ActiveRecord::Base
   end   
 
   def match_password(login_password="")
-    hash_password == Digest::SHA1.hexdigest(login_password)
+    hashed_password == Digest::SHA1.hexdigest(login_password)
     #hash_password == BCrypt::Engine.hash_secret(login_password, salt)
   end
 
-
-
   def hash_password
     unless password.blank?
-      self.hash_password= Digest::SHA1.hexdigest(password)
+      self.hashed_password= Digest::SHA1.hexdigest(password)
 
      # self.salt = BCrypt::Engine.generate_salt
      # self.hash_password = BCrypt::Engine.hash_secret(password, salt)
@@ -47,10 +45,6 @@ class User < ActiveRecord::Base
 
   def clear_password
     self.password = nil
-  end
-  
-  def user_params
-      params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
 
 end

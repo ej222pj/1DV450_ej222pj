@@ -18,8 +18,8 @@ before_filter :save_login_state, :only => [:new, :create]
     render "new"
   end
     
-    def user_params
-      params.require(:user).permit(:username, :email, :password, :salt, :encrypted_password)
-    end
+  def user_params
+    params.require(:user).permit(:username, :email, :password, :salt, :hashed_password)
+  end
 
 end
