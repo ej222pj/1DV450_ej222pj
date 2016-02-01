@@ -1,15 +1,17 @@
 Rails.application.routes.draw do
-  get 'applications/new'
+  root  :to => redirect('/login')
+  get   '/login' => 'sessions#new'
+  post  '/login' => 'sessions#create'
 
-  match ':controller(/:action(/:id))(.:format)', via: [:get, :post]
-  root :to => 'sessions#login'
-  match "signup", :to => "users#new", via: [:get, :post]
-  match "login", :to => "sessions#login", via: [:get, :post]
-  match "logout", :to => "sessions#logout", via: [:get, :post]
-  match "home", :to => "sessions#home", via: [:get, :post]
-  match "profile", :to => "sessions#profile", via: [:get, :post]
-  match "setting", :to => "sessions#setting", via: [:get, :post]
-  #resources :users
+  get   'admin_login' => 'sessions#new_admin', as: :login_admin
+  post  'admin_login' => 'sessions#create_admin', as: :do_login_admin
+
+  get   'apikeys' => 'apikeys#show', as: :apikey
+  get   '/logout'  => 'sessions#destroy', as: :logout
+  get   '/adminlogout' => 'sessions#destroy_admin', as: :logout_admin
+  get   'admin' => 'admins#show', as: :admin
+
+  resources :users, only: [:create, :destroy, :new]
   
   #post 'sessions/login'
 
