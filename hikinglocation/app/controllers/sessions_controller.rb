@@ -1,40 +1,41 @@
 class SessionsController < ApplicationController
-  	before_filter :authenticate_user, :except => [:index, :login, :login_attempt, :logout]
-	before_filter :save_login_state, :only => [:index, :login, :login_attempt]
+  def new
 
-	def home
-		#Home Page
-	end
+  end
 
-	def profile
-		#Profile Page
-	end
+  def create
+    user = User.find_by(email: params[:session][:email].downcase)
 
-	def setting
-		#Setting Page
-	end
+    if user && user.authenticate(params[:session][:password])
+      log_in user
+      redirect_to apikey_path
+    else
+      flash.now[:danger] = 'Wrong Email/Password combo!'
+      render 'new'
+    end
+  end
 
-	def login
-		#Login Form
-	end
+  def destroy
+    log_out
+    flash[:info] = 'Please come again!'
+    redirect_to root_path
+  end
 
-	def login_attempt
-		authorized_user = User.authenticate(params[:username_or_email], params[:login_password])
-		if authorized_user
-			session[:user_id] = authorized_user.id
-			flash[:notice] = "Welcome, you logged in as: #{authorized_user.username}"
-			redirect_to(:action => 'home')
+  def create_admin
+    admin = Admin.find_by(name: params[:session][:name].downcase)
 
-		else
-			flash[:notice] = "Invalid Username or Password"
-        	flash[:color]= "invalid"
-			render "login"	
-		end
-	end
+    if admin && admin.authenticate(params[:session][:password])
+      log_admin_in admin
+      redirect_to admin_path
+    else
+      flash.now[:danger] = 'Wrong Name/Password combo!'
+      render 'new_admin'
+    end
+  end
 
-	def logout
-		session[:user_id] = nil
-		redirect_to :action => 'login'
-	end
-
+  def destroy_admin
+    log_admin_out
+    flash[:info] = 'Bye Admin!'
+    redirect_to root_path
+  end
 end

@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  
+  has_many :applications
   attr_accessor :password
 
   before_save :hash_password
