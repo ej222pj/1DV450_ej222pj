@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'admins/show'
+
   root  :to => redirect('/login')
   get   '/login' => 'sessions#new'
   post  '/login' => 'sessions#create'
