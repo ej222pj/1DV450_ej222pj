@@ -1,0 +1,16 @@
+<fieldset>
+    <%= form_for(:session, url: login_path, :html => {:class => "form-signin"}) do |f| %>
+        <h2 class="form-signin-heading">Sign in</h2>
+        <p><%= f.label :email, "E-mail:", class: "sr-only" %></p>
+        <p><%= f.email_field(:email, placeholder: "E-mail", class: 'form-control') %></p>
+
+        <p><%= f.label(:password, "Password:", class: "sr-only") %></p>
+        <p><%= f.password_field(:password, placeholder: "Password", class: 'form-control') %></p>
+
+        <p><%= f.submit("Log in", class: "btn btn-lg btn-primary btn-block") %></p>
+      <ul class="nav nav-pills">
+        <li role="presentation"><%= link_to "Register", new_user_path %></li>
+        <li role="presentation"><%= link_to "Sign in as Admin", login_admin_path %></li>
+      </ul>
+    <% end %>
+</fieldset>

@@ -1,43 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hikinglocation</title>
+  <title>Register</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  
-  <div class="Main_Header">
-  		<h1>Ruby Source</h1>
-  		<%unless session[:user_id]%>
-  			<ul class="nav">
-  				<li><%= link_to :Signup , :signup, class: "nav_links"%></li>
-  				<li><%= link_to :Login , :login, class: "nav_links"%></li>	
-  			</ul>
-  		<%else%>
-  			<ul class="nav">
-  				<li><%= link_to :Home , :home, class: "nav_links" %> |</li>
-  				<li><%= link_to :Profile , :profile, class: "nav_links" %> |</li>
-  				<li><%= link_to :Setting , :setting, class: "nav_links" %> |</li>
-  				<li><%= link_to :Logout , :logout, class: "nav_links" %></li>	
-  			</ul>
-  		<%end%>
-  	</div>
-  	<% if flash[:color]== "valid" %>
-  		<div class="valid_notice">
-  			<p><%= flash[:notice]%></p>
-  		</div>
-  	<% elsif flash[:color]== "invalid"%>
-  		<div class="invalid_notice">
-  			<p><%=flash[:notice]%></p>
-  		</div>
-  	<%else%>
-  		<div class="notice">
-  			<p><%=flash[:notice]%></p>
-  		</div>
-  	<%end%>
-  <%= yield %>
+    <div class="container">
+      <div class="page-header">
+        <h1>Register Application</h1>
+      </div>
+      <% flash.each do |message_type, message| %>
+          <div class="alert alert-<%= message_type %> alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <%= message %>
+          </div>
+      <% end %>
 
-</body>
+      <%= yield %>
+    </div>
+    </body>
 </html>
