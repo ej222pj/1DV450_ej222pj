@@ -1,19 +1,14 @@
 Rails.application.routes.draw do
-  get 'admins/show'
+ root :to => redirect('/login')
+  get 'users/new'
 
-  root  :to => redirect('/login')
-  get   '/login' => 'sessions#new'
-  post  '/login' => 'sessions#create'
+  resources :users
+  resources :apikeys
+  resource :admins
 
-  get   'admin_login' => 'sessions#new_admin', as: :login_admin
-  post  'admin_login' => 'sessions#create_admin', as: :do_login_admin
-
-  get   'apikeys' => 'apikeys#show', as: :apikey
-  get   '/logout'  => 'sessions#destroy', as: :logout
-  get   '/adminlogout' => 'sessions#destroy_admin', as: :logout_admin
-  get   'admin' => 'admins#show', as: :admin
-
-  resources :users, only: [:create, :destroy, :new]
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  get '/logout' => 'sessions#destroy', as: :logout
   
   #post 'sessions/login'
 

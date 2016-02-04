@@ -1,50 +1,24 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><p class="navbar-text">Signed in as <%= @current_admin.name %></p></li>
-      </ul>
-
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <button type="button" class="btn btn-default navbar-btn"><%= link_to "Logout", logout_admin_path %></button>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-<div>
-  <h2>Users and keys</h2>
-
-  <table class="table table-hover">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>E-mail</th>
-            <th>Key</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <% @users.each do |user| %>
-            <tr>
-              <td><%= user.id %></td>
-              <td><%= user.email %></td>
-              <td><%= user.api_key.value %></td>
-              <td><%= link_to 'Delete', user_path(user.id), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure you want to delete user?"} %></td>
-            </tr>
-        <% end %>
-    </tbody>
-  </table>
+<div class="container">
+  <%= link_to "Log out", logout_path %>
+  <p class="navbar-text navbar-right">Hello ADMIN</p>
 </div>
+
+<% @user.each do | users | %>
+    <% if users.id != 1%>
+        <h3><p><%= users.username %></p><%= link_to "Remove user", admins_path(id: users.id), method: :delete, data: {confirm: "Are you sure you want to remove the user?"}%></h3>
+        <table>
+          <tr>
+            <td>Device</td>
+            <td>Key</td>
+            <td>Action</td>
+          </tr>
+          <% users.apikeys.each do | apikeys | %>
+              <tr>
+                <td><%= apikeys.device %></td>
+                <td><%= apikeys.key %></td>
+                <td><%= link_to "Revoke key", apikey_path(apikeys.id), method: :delete, data: { confirm: "Are you sure you want to revoke the device/key?" }%></td>
+              </tr>
+          <% end %>
+        </table>
+    <% end %>
+<% end %>

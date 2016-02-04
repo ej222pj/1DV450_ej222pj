@@ -1,0 +1,20 @@
+<div class="container">
+    <%= link_to "Create APIkey", new_apikey_path %>
+    <%= link_to "Log out", logout_path %>
+    <p>Signed in</p>
+</div>
+
+<table>
+  <tr>
+    <td>Device</td>
+    <td>Key</td>
+    <td>Action</td>
+  </tr>
+  <% @user.apikeys.each do | apikeys | %>
+      <tr>
+        <td><%= apikeys.device %></td>
+        <td><%= apikeys.key %></td>
+        <td><%= link_to "Delete key", apikey_path(apikeys.id), method: :delete, data: { confirm: "Are you sure you want to remove this API key?" }%></td>
+      </tr>
+  <% end %>
+</table>

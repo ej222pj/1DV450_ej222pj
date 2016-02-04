@@ -1,0 +1,28 @@
+<div class="container">
+    <%= link_to "Go back", apikeys_path %>
+    <p>Create API key</p>
+</div>
+
+
+<% if @apikey.errors.any? %>
+    <div>
+      <h2>Something went wrong with the registration</h2>
+
+      <ul>
+        <% @apikey.errors.full_messages.each do |msg|%>
+            <li><%= msg%></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+
+<div>
+  <div>
+    <%= form_for @apikey do | f |%>
+        <p><%= f.label :device_name  %></p>
+        <p><%= f.text_field :device, placeholder: "Device name" %></p>
+
+        <p><%= f.submit "Create" %></p>
+    <% end %>
+  </div>
+</div>

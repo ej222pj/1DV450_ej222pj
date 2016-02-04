@@ -1,45 +1,35 @@
 <% if @user.errors.any? %>
-    <div class="alert alert-danger" role="alert">
-      <h3><%= pluralize(@user.errors.count, "error") %> in the form:</h3>
+    <div>
+      <h2>Something went wrong with the registration</h2>
+
       <ul>
-        <% @user.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
+        <% @user.errors.full_messages.each do |msg|%>
+          <li><%= msg%></li>
         <% end %>
       </ul>
     </div>
 <% end %>
 
-<div class="col-md-6 col-md-offset-3">
-    <%= link_to "Back", root_path %>
-
-    <h2>Register new user</h2>
-
-    <%= form_for @user, :html => {:class => "form-horizontal"} do |u| %>
-      <div class="form-group">
-        <%= u.label :email, class: "col-sm-2 control-label" %>
-            <div class="col-sm-10">
-                <%= u.text_field :email, class: "form-control", type: "email", placeholder: "E-mail" %>
-            </div>
-      </div>
-
-      <div class="form-group">
-        <%= u.label :password, class: "col-sm-2 control-label" %>
-            <div class="col-sm-10">
-                <%= u.password_field :password, class: "form-control", placeholder: "Password" %>
-            </div>
-      </div>
-
-      <div class="form-group">
-        <%= u.label :password_confirmation, class: "col-sm-2 control-label" %>
-            <div class="col-sm-10">
-              <%= u.password_field :password_confirmation, class: "form-control", placeholder: "Repeat password" %>
-            </div>
-      </div>
-
-      <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-            <%= u.submit "Register new user", class: "btn btn-default" %>
-          </div>
-      </div>
-    <% end %>
+<div>
+  <h1>Webb API</h1>
+  <h2>Register</h2>
 </div>
+
+<%= link_to "Back", root_path %>
+  <div>
+    <%= form_for @user do | f |%>
+        <p><%= f.label :username %></p>
+        <p><%= f.text_field :username, placeholder: "Username" %></p>
+
+        <p><%= f.label :email %></p>
+        <p><%= f.email_field :email, placeholder: "Email" %></p>
+
+        <p><%= f.label :password %></p>
+        <p><%= f.password_field :password, placeholder: "Password" %></p>
+
+        <p><%= f.label :password_confirmation %></p>
+        <p><%= f.password_field :password_confirmation, placeholder: "Password confirmation" %></p>
+
+        <p><%= f.submit "Register" %></p>
+    <% end %>
+  </div>
